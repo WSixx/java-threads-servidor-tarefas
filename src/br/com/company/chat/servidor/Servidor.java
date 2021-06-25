@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Servidor {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         System.out.println("Iniciando Servidor");
         ServerSocket servidor = new ServerSocket(3320);
@@ -14,6 +14,12 @@ public class Servidor {
         while (true){
             Socket socket = servidor.accept();
             System.out.println("Aceitando novo Cliente na porta: " + socket.getPort());
+
+            DistribuirTarefas distribuirTarefas = new DistribuirTarefas(socket);
+            Thread threadCliente = new Thread(distribuirTarefas);
+            threadCliente.start();
+
+
         }
 
     }
